@@ -839,7 +839,19 @@
             }
             
             .box-container {
+                --line-thickness: 2px;
                 transform: rotateX(-2deg) rotateY(10deg) scale(0.7);
+            }
+            
+            /* Ensure proper alignment in landscape */
+            .line-front-top, .line-front-bottom {
+                height: var(--line-thickness);
+            }
+            .line-front-left, .line-front-right {
+                width: var(--line-thickness);
+            }
+            .line-depth-top, .line-depth-bottom, .line-depth-top-right {
+                width: var(--line-thickness);
             }
             
             .vitriark-text {
