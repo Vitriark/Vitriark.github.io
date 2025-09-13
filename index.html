@@ -514,20 +514,33 @@
             transform: translateX(-50%);
             font-family: 'Helvetica Neue', Arial, sans-serif;
             font-size: 22px;
-            font-weight: 100; /* Made thinner from 200 to 100 */
+            font-weight: 300; /* Adjusted to 300 for better mobile rendering */
             letter-spacing: 6px;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.8); /* Slightly increased opacity for better visibility with glow */
+            color: rgba(255, 255, 255, 0.95); /* Increased opacity for better visibility */
             opacity: 0;
             animation: fadeInSubheading 2s ease-out forwards;
             animation-delay: 5.5s;
             font-stretch: condensed;
             text-align: center;
             white-space: nowrap;
-            /* Added subtle glow effect */
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3),
-                         0 0 10px rgba(255, 255, 255, 0.5),
-                         0 0 5px rgba(255, 255, 255, 0.7);
+            /* Enhanced glow effect for better mobile compatibility */
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.6),
+                         0 0 25px rgba(255, 255, 255, 0.7),
+                         0 0 15px rgba(255, 255, 255, 0.8),
+                         0 0 8px #ffffff;
+            /* Webkit specific for better mobile rendering */
+            -webkit-text-shadow: 0 0 40px rgba(255, 255, 255, 0.6),
+                                0 0 25px rgba(255, 255, 255, 0.7),
+                                0 0 15px rgba(255, 255, 255, 0.8),
+                                0 0 8px #ffffff;
+            /* Add a subtle filter for additional glow on supported devices */
+            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+            -webkit-filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+            /* Ensure text rendering is optimized */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
         }
         
         @keyframes fadeInSubheading {
