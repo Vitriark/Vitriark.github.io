@@ -55,14 +55,18 @@
             0%, 100% { opacity: 0; }
             50% { opacity: 1; }
         }
-        /* 3D Box Container */
+        
+        /* 3D Box Container with Transform Scale */
         .box-container {
+            --container-scale: 1;
             position: absolute;
             width: 780px;
             height: 390px;
             transform-style: preserve-3d;
-            transform: rotateX(-10deg) rotateY(20deg);
+            transform: rotateX(-10deg) rotateY(20deg) scale(var(--container-scale));
+            transform-origin: center center;
         }
+        
         /* 3D Box Lines */
         .box-line {
             position: absolute;
@@ -77,7 +81,7 @@
         }
         
         .line-front-bottom {
-            transform-origin: 10px center; /* Moved origin another 4px to the right (total 10px) */
+            transform-origin: 10px center;
         }
         
         .line-front-left,
@@ -90,6 +94,7 @@
         .line-depth-top-right {
             transform-origin: 0 0;
         }
+        
         /* Drawing Points - Hidden */
         .drawing-point {
             position: absolute;
@@ -100,6 +105,7 @@
             z-index: 10;
             transform: translate(-50%, -50%);
         }
+        
         /* Front Rectangle - Main visible face */
         .line-front-top {
             top: 156px;
@@ -117,7 +123,7 @@
             height: 0;
             animation: drawVerticalFrontRight 2s ease-out forwards;
             animation-delay: 0.3s;
-            z-index: 3; /* Higher z-index to ensure visibility */
+            z-index: 3;
         }
         .line-front-bottom {
             top: 312px;
@@ -135,45 +141,69 @@
             height: 0;
             animation: drawVerticalFrontLeft 1.8s ease-out forwards;
             animation-delay: 2.5s;
-            z-index: 3; /* Higher z-index to ensure visibility */
+            z-index: 3;
         }
+        
         /* 3D Depth Lines - Only visible edges */
         .line-depth-top {
-            top: 156px;  /* Exactly at top edge */
-            left: 130px;  /* Exactly at left edge */
+            top: 156px;
+            left: 130px;
             width: 4px;
             height: 0;
             transform: rotate(135deg);
-            transform-origin: 2px 2px;  /* Origin at center of line thickness */
+            transform-origin: 2px 2px;
             opacity: 0.9;
             animation: drawDepthLine 1.6s ease-out forwards;
             animation-delay: 0.3s;
             z-index: 1;
         }
         .line-depth-bottom {
-            top: 311px;  /* Moved up 2px from 312px */
-            left: 128px;  /* Moved 2px to the left from 130px */
+            top: 311px;
+            left: 128px;
             width: 4px;
             height: 0;
             transform: rotate(135deg);
-            transform-origin: 2px 2px;  /* Same as top depth line - center of line thickness */
+            transform-origin: 2px 2px;
             opacity: 0.9;
             animation: drawDepthLine 1.2s ease-out forwards;
             animation-delay: 0.3s;
             z-index: 1;
         }
         .line-depth-top-right {
-            top: 153px;  /* Exactly at top edge */
-            left: 652px;  /* Exactly at right edge */
+            top: 153px;
+            left: 652px;
             width: 4px;
             height: 0;
             transform: rotate(135deg);
-            transform-origin: 0px 2px;  /* Origin at center of line thickness */
+            transform-origin: 0px 2px;
             opacity: 0.9;
             animation: drawDepthLine 1.8s ease-out forwards;
             animation-delay: 2.5s;
             z-index: 1;
         }
+        
+        /* Single set of animations for all screen sizes */
+        @keyframes drawHorizontalFront {
+            to {
+                width: 520px;
+            }
+        }
+        @keyframes drawVerticalFrontRight {
+            to {
+                height: 160px;
+            }
+        }
+        @keyframes drawVerticalFrontLeft {
+            to {
+                height: 158px;
+            }
+        }
+        @keyframes drawDepthLine {
+            to {
+                height: 92px;
+            }
+        }
+        
         /* Drawing Points Animations */
         .point-1 {
             animation: movePoint1 10s ease-in-out forwards;
@@ -191,14 +221,13 @@
             animation: movePoint4 10s ease-in-out forwards;
             animation-delay: 0.3s;
         }
-        /* Point 1 - Upper left corner moving backward to create upper left edge */
+        
         @keyframes movePoint1 {
             0% { opacity: 0; }
             1% { opacity: 1; left: 100px; top: 120px; }
             18% { left: 50px; top: 70px; }
             19%, 100% { opacity: 0; left: 50px; top: 70px; }
         }
-        /* Point 2 - Back bottom left moving forward, then right along bottom edge */
         @keyframes movePoint2 {
             0% { opacity: 0; }
             1% { opacity: 1; left: 50px; top: 190px; }
@@ -206,7 +235,6 @@
             50% { left: 500px; top: 240px; }
             51%, 100% { opacity: 0; left: 500px; top: 240px; }
         }
-        /* Point 3 - Bottom right corner moving up to top right, then backward (up-left) for depth */
         @keyframes movePoint3 {
             0% { opacity: 0; }
             1% { opacity: 1; left: 500px; top: 240px; }
@@ -214,7 +242,6 @@
             40% { left: 450px; top: 70px; }
             41%, 100% { opacity: 0; left: 450px; top: 70px; }
         }
-        /* Point 4 - Top right corner moving left to top left, then down to bottom left */
         @keyframes movePoint4 {
             0% { opacity: 0; }
             1% { opacity: 1; left: 500px; top: 120px; }
@@ -222,27 +249,7 @@
             40% { left: 100px; top: 240px; }
             41%, 100% { opacity: 0; left: 100px; top: 240px; }
         }
-        @keyframes drawHorizontalFront {
-            to {
-                width: 520px; /* Extends from left: 130px to 654px (covering the 4px wide vertical line at 650px) */
-            }
-        }
-        @keyframes drawVerticalFrontRight {
-            to {
-                height: 160px; /* Extends from top: 156px to 316px (covering the 4px tall horizontal line at 312px) */
-            }
-        }
         
-        @keyframes drawVerticalFrontLeft {
-            to {
-                height: 158px; /* Reduced by 2px to match the depth line adjustment */
-            }
-        }
-        @keyframes drawDepthLine {
-            to {
-                height: 92px; /* Length of diagonal line */
-            }
-        }
         /* Hubble-style Star Shape */
         .star-shape {
             position: absolute;
@@ -250,7 +257,8 @@
             height: 47px;
             opacity: 0;
         }
-        /* Star 1 - Left of V */
+        
+        /* Star positions - these scale with container */
         .star-1 {
             top: 200px;
             left: 165px;
@@ -259,7 +267,6 @@
             animation: fadeInStar 1.5s ease-out forwards, subtleTwinkle 4s ease-in-out infinite;
             animation-delay: 4.2s, 5.7s;
         }
-        /* Star 2 - Upper left corner of front face */
         .star-2 {
             top: 165px;
             left: 138px;
@@ -268,16 +275,14 @@
             animation: fadeInStar 1.5s ease-out forwards, subtleTwinkle2 3.5s ease-in-out infinite;
             animation-delay: 4.4s, 6s;
         }
-        /* Star 3 - Bottom right under ARK - MOVED UP */
         .star-3 {
-            top: 245px;  /* Moved up from 268px to create more distance from bottom edge */
+            top: 245px;
             left: 535px;
             width: 40px;
             height: 40px;
             animation: fadeInStar 1.5s ease-out forwards, subtleTwinkle 4.5s ease-in-out infinite;
             animation-delay: 4.6s, 6.2s;
         }
-        /* Star 4 - Upper right, on receding top plane */
         .star-4 {
             top: 88px;
             left: 620px;
@@ -290,8 +295,9 @@
         .star-4 .star-center,
         .star-4 .spike-vertical,
         .star-4 .spike-horizontal {
-            opacity: 0.85; /* Slightly dimmer as it's on a different plane */
+            opacity: 0.85;
         }
+        
         @keyframes subtleTwinkle {
             0%, 100% { 
                 transform: scale(1) rotate(0deg);
@@ -328,7 +334,8 @@
                 filter: brightness(0.95);
             }
         }
-        /* Bright central core */
+        
+        /* Star components */
         .star-center {
             position: absolute;
             top: 50%;
@@ -348,7 +355,7 @@
                         0 0 30px rgba(102, 126, 234, 0.6);
             z-index: 3;
         }
-        /* Diffraction spikes container */
+        
         .star-spikes {
             position: absolute;
             width: 100%;
@@ -356,7 +363,7 @@
             top: 0;
             left: 0;
         }
-        /* Vertical diffraction spikes (longer) */
+        
         .spike-vertical {
             position: absolute;
             left: 50%;
@@ -374,7 +381,7 @@
                 transparent 100%);
             box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
         }
-        /* Horizontal diffraction spikes (shorter) */
+        
         .spike-horizontal {
             position: absolute;
             left: 50%;
@@ -392,7 +399,7 @@
                 transparent 100%);
             box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
         }
-        /* Secondary fainter spikes for more realism */
+        
         .spike-vertical::after {
             content: '';
             position: absolute;
@@ -425,6 +432,7 @@
                 rgba(102, 126, 234, 0.1) 80%,
                 transparent 100%);
         }
+        
         @keyframes fadeInStar {
             0% {
                 opacity: 0;
@@ -442,7 +450,7 @@
                 filter: blur(0px);
             }
         }
-        /* Add subtle glow animation to star */
+        
         .star-shape::after {
             content: '';
             position: absolute;
@@ -468,6 +476,7 @@
                 opacity: 1; 
             }
         }
+        
         /* Vitriark Text */
         .vitriark-text {
             position: absolute;
@@ -478,11 +487,10 @@
             color: #ffffff;
             opacity: 0;
             animation: fadeInText 2s ease-out forwards;
-            animation-delay: 4.5s; /* Text appears after box */
+            animation-delay: 4.5s;
             text-transform: uppercase;
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.5),
                          0 0 15px rgba(255, 255, 255, 0.8);
-            /* Centered on front face */
             top: 234px;
             left: 390px;
             transform: translate(-50%, -50%);
@@ -497,6 +505,7 @@
                 transform: translate(-50%, -50%);
             }
         }
+        
         /* Main Content */
         .main-content {
             min-height: 100vh;
@@ -508,7 +517,6 @@
             padding: 80px 20px;
         }
         
-        /* Content Container */
         .content-container {
             max-width: 800px;
             text-align: center;
@@ -543,11 +551,13 @@
             color: #667eea;
             font-weight: 600;
         }
+        
         @keyframes fadeInContent {
             to {
                 opacity: 1;
             }
         }
+        
         /* Hero Section */
         .hero {
             height: 100vh;
@@ -596,207 +606,41 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
         }
-        /* Pulse animation for points */
+        
         @keyframes pulse {
             0%, 100% { transform: translate(-50%, -50%) scale(1); }
             50% { transform: translate(-50%, -50%) scale(1.2); }
         }
         
-        /* ===== ENHANCED MOBILE RESPONSIVE STYLES ===== */
+        /* ===== RESPONSIVE SCALING WITH TRANSFORM ===== */
         
         /* Tablet and smaller screens */
         @media (max-width: 768px) {
             .box-container {
-                width: min(90vw, 520px);
-                height: calc(min(90vw, 520px) * 0.5);
-                transform: rotateX(-5deg) rotateY(15deg) scale(0.9);
-            }
-            
-            /* Adjust line positions proportionally */
-            .line-front-top {
-                top: 30%;
-                left: 15%;
-                height: 3px;
-            }
-            .line-front-right {
-                top: 30%;
-                left: 82%;
-                width: 3px;
-            }
-            .line-front-bottom {
-                top: 75%;
-                left: 15%;
-                height: 3px;
-            }
-            .line-front-left {
-                top: 30%;
-                left: 15%;
-                width: 3px;
-            }
-            
-            /* Adjust depth lines */
-            .line-depth-top {
-                top: 30%;
-                left: 15%;
-                width: 3px;
-            }
-            .line-depth-bottom {
-                top: 74.5%;
-                left: 14.5%;
-                width: 3px;
-            }
-            .line-depth-top-right {
-                top: 29%;
-                left: 82.5%;
-                width: 3px;
-            }
-            
-            /* Adjust animations for mobile */
-            @keyframes drawHorizontalFrontMobile {
-                to { width: 67%; }
-            }
-            .line-front-top, .line-front-bottom {
-                animation: drawHorizontalFrontMobile 2s ease-out forwards;
-            }
-            .line-front-bottom {
-                animation-delay: 1.5s;
-            }
-            
-            @keyframes drawVerticalFrontMobile {
-                to { height: 45%; }
-            }
-            .line-front-left, .line-front-right {
-                animation: drawVerticalFrontMobile 2s ease-out forwards;
-            }
-            
-            @keyframes drawDepthLineMobile {
-                to { height: 60px; }
-            }
-            .line-depth-top, .line-depth-bottom, .line-depth-top-right {
-                animation: drawDepthLineMobile 1.6s ease-out forwards;
-            }
-            
-            /* Adjust stars proportionally */
-            .star-1 {
-                top: 42%;
-                left: 23%;
-                width: 28px;
-                height: 28px;
-            }
-            .star-2 {
-                top: 35%;
-                left: 18%;
-                width: 25px;
-                height: 25px;
-            }
-            .star-3 {
-                top: 60%;
-                left: 72%;
-                width: 32px;
-                height: 32px;
-            }
-            .star-4 {
-                top: 18%;
-                left: 78%;
-                width: 25px;
-                height: 25px;
-            }
-            
-            /* Adjust text */
-            .vitriark-text {
-                font-size: clamp(28px, 7vw, 36px);
-                letter-spacing: 6px;
-                top: 52%;
-                left: 50%;
+                --container-scale: min(0.9, calc(90vw / 780px));
+                transform: rotateX(-5deg) rotateY(15deg) scale(var(--container-scale));
             }
         }
         
         /* Small mobile screens */
         @media (max-width: 480px) {
-            .loading-animation {
-                padding: 20px;
-            }
-            
             .box-container {
-                width: 85vw;
-                height: calc(85vw * 0.5);
-                transform: rotateX(-3deg) rotateY(10deg) scale(1);
+                --container-scale: calc(85vw / 780px);
+                transform: rotateX(-3deg) rotateY(10deg) scale(var(--container-scale));
             }
             
-            /* Thinner lines on small screens */
+            /* Optionally reduce line thickness on very small screens */
             .box-line {
                 box-shadow: 0 0 10px rgba(255, 255, 255, 0.7),
                             0 0 20px rgba(255, 255, 255, 0.3);
-            }
-            
-            .line-front-top, .line-front-bottom {
-                height: 2px;
-            }
-            .line-front-left, .line-front-right {
-                width: 2px;
-            }
-            .line-depth-top, .line-depth-bottom, .line-depth-top-right {
-                width: 2px;
-            }
-            
-            /* Smaller depth animation */
-            @keyframes drawDepthLineMobileSmall {
-                to { height: 45px; }
-            }
-            .line-depth-top, .line-depth-bottom, .line-depth-top-right {
-                animation: drawDepthLineMobileSmall 1.6s ease-out forwards;
-            }
-            
-            /* Smaller stars */
-            .star-1 {
-                width: 22px;
-                height: 22px;
-            }
-            .star-2 {
-                width: 20px;
-                height: 20px;
-            }
-            .star-3 {
-                width: 26px;
-                height: 26px;
-            }
-            .star-4 {
-                width: 20px;
-                height: 20px;
-            }
-            
-            /* Smaller star elements */
-            .star-center {
-                width: 4px;
-                height: 4px;
-            }
-            
-            /* Smaller text */
-            .vitriark-text {
-                font-size: clamp(24px, 6vw, 30px);
-                letter-spacing: 4px;
             }
         }
         
         /* Very small mobile screens */
         @media (max-width: 375px) {
             .box-container {
-                width: 80vw;
-                height: calc(80vw * 0.5);
-                transform: rotateX(0deg) rotateY(8deg) scale(1);
-            }
-            
-            /* Even smaller depth animation */
-            @keyframes drawDepthLineMobileXSmall {
-                to { height: 35px; }
-            }
-            .line-depth-top, .line-depth-bottom, .line-depth-top-right {
-                animation: drawDepthLineMobileXSmall 1.6s ease-out forwards;
-            }
-            
-            .vitriark-text {
-                font-size: 22px;
-                letter-spacing: 3px;
+                --container-scale: calc(80vw / 780px);
+                transform: rotateX(0deg) rotateY(8deg) scale(var(--container-scale));
             }
             
             /* Adjust content padding */
@@ -808,26 +652,8 @@
         /* Ultra small screens (iPhone SE, etc) */
         @media (max-width: 320px) {
             .box-container {
-                width: 75vw;
-                height: calc(75vw * 0.5);
-                transform: rotateX(0deg) rotateY(5deg) scale(1);
-            }
-            
-            /* Minimal star sizes */
-            .star-1, .star-2, .star-3, .star-4 {
-                width: 18px;
-                height: 18px;
-            }
-            
-            .star-3 {
-                width: 22px;
-                height: 22px;
-            }
-            
-            .vitriark-text {
-                font-size: 20px;
-                letter-spacing: 2px;
-                text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+                --container-scale: calc(75vw / 780px);
+                transform: rotateX(0deg) rotateY(5deg) scale(var(--container-scale));
             }
         }
         
@@ -839,23 +665,8 @@
             }
             
             .box-container {
-                --line-thickness: 2px;
-                transform: rotateX(-2deg) rotateY(10deg) scale(0.7);
-            }
-            
-            /* Ensure proper alignment in landscape */
-            .line-front-top, .line-front-bottom {
-                height: var(--line-thickness);
-            }
-            .line-front-left, .line-front-right {
-                width: var(--line-thickness);
-            }
-            .line-depth-top, .line-depth-bottom, .line-depth-top-right {
-                width: var(--line-thickness);
-            }
-            
-            .vitriark-text {
-                font-size: 28px;
+                --container-scale: 0.7;
+                transform: rotateX(-2deg) rotateY(10deg) scale(var(--container-scale));
             }
         }
     </style>
