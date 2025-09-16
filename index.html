@@ -506,7 +506,7 @@
             }
         }
         
-        /* Creating for life Subheading - Updated with thinner weight and subtle glow */
+        /* Updated Subheading with Sequential Word Animation */
         .subheading {
             position: absolute;
             bottom: 60px;
@@ -514,39 +514,61 @@
             transform: translateX(-50%);
             font-family: 'Helvetica Neue', Arial, sans-serif;
             font-size: 22px;
-            font-weight: 300; /* Adjusted to 300 for better mobile rendering */
+            font-weight: 300;
             letter-spacing: 6px;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.9); /* Good visibility */
-            opacity: 0;
-            animation: fadeInSubheading 2s ease-out forwards;
-            animation-delay: 5.5s;
+            color: rgba(255, 255, 255, 0.9);
             font-stretch: condensed;
             text-align: center;
             white-space: nowrap;
-            /* Balanced glow effect - visible but subtle */
-            text-shadow: 0 0 25px rgba(255, 255, 255, 0.4),
-                         0 0 15px rgba(255, 255, 255, 0.5),
-                         0 0 8px rgba(255, 255, 255, 0.6);
-            /* Webkit specific for better mobile rendering */
-            -webkit-text-shadow: 0 0 25px rgba(255, 255, 255, 0.4),
-                                0 0 15px rgba(255, 255, 255, 0.5),
-                                0 0 8px rgba(255, 255, 255, 0.6);
             /* Ensure text rendering is optimized */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
         }
         
-        @keyframes fadeInSubheading {
+        /* Individual word spans with sequential animation */
+        .subheading-word {
+            display: inline-block;
+            opacity: 0;
+            /* Balanced glow effect */
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.4),
+                         0 0 15px rgba(255, 255, 255, 0.5),
+                         0 0 8px rgba(255, 255, 255, 0.6);
+            -webkit-text-shadow: 0 0 25px rgba(255, 255, 255, 0.4),
+                                0 0 15px rgba(255, 255, 255, 0.5),
+                                0 0 8px rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Sequential animation for each word */
+        .word-1 {
+            animation: fadeInWord 1.5s ease-out forwards;
+            animation-delay: 5.5s;
+        }
+        
+        .word-2 {
+            animation: fadeInWord 1.5s ease-out forwards;
+            animation-delay: 6s;
+        }
+        
+        .word-3 {
+            animation: fadeInWord 1.5s ease-out forwards;
+            animation-delay: 6.5s;
+        }
+        
+        @keyframes fadeInWord {
             0% {
                 opacity: 0;
-                transform: translateX(-50%) translateY(20px);
             }
             100% {
                 opacity: 1;
-                transform: translateX(-50%) translateY(0);
             }
+        }
+        
+        /* Spacer for consistent spacing */
+        .word-spacer {
+            display: inline-block;
+            width: 1.2em; /* Adjust this value to control spacing */
         }
         
         /* Main Content */
@@ -661,6 +683,9 @@
                 letter-spacing: 4px;
                 bottom: 50px;
             }
+            .word-spacer {
+                width: 1em;
+            }
         }
         
         /* Small mobile screens */
@@ -681,6 +706,9 @@
                 letter-spacing: 3px;
                 bottom: 40px;
             }
+            .word-spacer {
+                width: 0.8em;
+            }
         }
         
         /* Very small mobile screens */
@@ -698,6 +726,9 @@
             .subheading {
                 font-size: 14px;
                 letter-spacing: 2px;
+            }
+            .word-spacer {
+                width: 0.6em;
             }
         }
         
@@ -787,8 +818,10 @@
             <div class="vitriark-text">Vitriark</div>
         </div>
         
-        <!-- Subheading -->
-        <div class="subheading">Taste   is   Eternal</div>
+        <!-- Updated Subheading with Sequential Animation -->
+        <div class="subheading">
+            <span class="subheading-word word-1">Taste</span><span class="word-spacer"></span><span class="subheading-word word-2">is</span><span class="word-spacer"></span><span class="subheading-word word-3">Eternal</span>
+        </div>
     </div>
     
     <!-- Main Content -->
